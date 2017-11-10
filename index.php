@@ -10,10 +10,10 @@ $task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка вр
 $current_ts = strtotime('now midnight'); // текущая метка времени
 
 // запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = null;
+$date_deadline = date("d.m.Y", $task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = null;
+$days_until_deadline = floor(($task_deadline_ts - $current_ts)/86400);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -108,7 +108,7 @@ $days_until_deadline = null;
                     <label class="checkbox">
                         <a href="/">
                             <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                            <input class="checkbox__input visually-hidden" type="checkbox" <? if ($show_complete_tasks == 1) {print ("checked");} ?>>
+                            <input class="checkbox__input visually-hidden" type="checkbox" <? if ($show_complete_tasks == 1) {echo "checked";} ?>>
                             <span class="checkbox__text">Показывать выполненные</span>
                         </a>
                     </label>
@@ -116,7 +116,7 @@ $days_until_deadline = null;
 
                 <table class="tasks">
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
-                    <? if ($show_complete_tasks == 1) {print ("
+                    <? if ($show_complete_tasks == 1) {echo "
                     <tr class='tasks__item task task--completed'>
                       <td class='task__select'>
                         <label class='checkbox task__checkbox'>
@@ -129,10 +129,10 @@ $days_until_deadline = null;
                       <td class='task__controls'>
                       </td>
                     </tr>
-                    ");}
+                    ";}
                     ?>
 
-                    <tr class="tasks__item task task--completed">
+                    <tr class="tasks__item task task--completed <? if ($days_until_deadline <= 0) {echo "task--important";}?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
@@ -145,7 +145,7 @@ $days_until_deadline = null;
                             <a class="download-link" href="#">Home.psd</a>
                         </td>
 
-                        <td class="task__date"><!--выведите здесь дату выполнения задачи--></td>
+                        <td class="task__date"><!--выведите здесь дату выполнения задачи--><? echo $date_deadline ?></td>
                     </tr>
 
                     <tr class="tasks__item task">
