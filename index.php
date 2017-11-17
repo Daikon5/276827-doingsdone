@@ -14,6 +14,17 @@ $date_deadline = null;
 
 // в эту переменную запишите кол-во дней до даты задачи
 $days_until_deadline = null;
+
+$categories = ["Все","Входящие","Учеба","Работа","Домашние дела","Авто"];
+
+$tasks = [
+["task" => "Собеседование в IT компании","deadline" => "01.06.2018","cat" => "Работа","done" => "Нет"],
+["task" => "Выполнить тестовое задание","deadline" => "25.05.2018","cat" => "Работа","done" => "Нет"],
+["task" => "Сделать задание первого раздела","deadline" => "21.04.2018","cat" => "Учеба","done" => "Да"],
+["task" => "Встреча с другом","deadline" => "22.04.2018","cat" => "Входящие","done" => "Нет"],
+["task" => "Купить корм для кота","deadline" => "Нет","cat" => "Домашние дела","done" => "Нет"],
+["task" => "Заказать пиццу","deadline" => "Нет","cat" => "Домашние дела","done" => "Нет"]
+];
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -58,24 +69,12 @@ $days_until_deadline = null;
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                      <?php
-                      $categories = ["Все","Входящие","Учеба","Работа","Домашние дела","Авто"];
-                      $num = count($categories);
-                      for ($q = 0; $q < $num; $q++) {
-                        if ($q == 0) {
-                          echo "<li class=\"main-navigation__list-item main-navigation__list-item--active\">
-                                  <a class=\"main-navigation__list-item-link\" href=\"#\">$categories[$q]</a>
-                                  <span class=\"main-navigation__list-item-count\">0</span>
-                                </li>";
-                        }
-                        else {
-                          echo "<li class=\"main-navigation__list-item\">
-                                  <a class=\"main-navigation__list-item-link\" href=\"#\">$categories[$q]</a>
-                                  <span class=\"main-navigation__list-item-count\">0</span>
-                                </li>";
-                              }
-                      }
-                      ?>
+                      <? foreach ($categories as $i => $cat): ?>
+                          <li class="main-navigation__list-item <? if ($i == 0) echo "main-navigation__list-item--active" ?>">
+                            <a class="main-navigation__list-item-link" href="#"><? echo $cat ?></a>
+                            <span class="main-navigation__list-item-count">0</span>
+                          </li>
+                      <? endforeach; ?>
                     </ul>
                 </nav>
 
@@ -109,48 +108,21 @@ $days_until_deadline = null;
                 </div>
 
                 <table class="tasks">
-                  <?
-                  $tasks = [  ["Собеседование в IT компании","01.06.2018","Работа","Нет"],
-                              ["Выполнить тестовое задание","25.05.2018","Работа","Нет"],
-                              ["Сделать задание первого раздела","21.04.2018","Учеба","Да"],
-                              ["Встреча с другом","22.04.2018","Входящие","Нет"],
-                              ["Купить корм для кота","Нет","Домашние дела","Нет"],
-                              ["Заказать пиццу","Нет","Домашние дела","Нет"]
-                            ];
+                  <? foreach ($tasks as $task): ?>
+                    <tr class="tasks__item task <? if ($task["done"] == "Да") {echo "task--completed";} ?>">
+                      <td class="task__select">
+                        <label class="checkbox task__checkbox">
+                          <input class="checkbox__input visually-hidden" type="checkbox">
+                          <a href="/"><span class="checkbox__text"><? echo $task["task"] ?></span></a>
+                        </label>
+                      </td>
 
-                            foreach ($tasks as $task) {
-                              if ($task[3] == "Да") {
-                                echo "<tr class=\"tasks__item task task--completed\">
-                                          <td class=\"task__select\">
-                                              <label class=\"checkbox task__checkbox\">
-                                              <input class=\"checkbox__input visually-hidden\" type=\"checkbox\">
-                                              <a href=\"/\"><span class=\"checkbox__text\">$task[0]</span></a>
-                                              </label>
-                                          </td>
+                      <td class="task__file">
+                      </td>
 
-                                          <td class=\"task__file\">
-                                          </td>
-
-                                          <td class=\"task__date\">$task[1]</td>
-                                          </tr>";
-                              }
-                              else {
-                                echo "<tr class=\"tasks__item task\">
-                                          <td class=\"task__select\">
-                                              <label class=\"checkbox task__checkbox\">
-                                              <input class=\"checkbox__input visually-hidden\" type=\"checkbox\">
-                                              <a href=\"/\"><span class=\"checkbox__text\">$task[0]</span></a>
-                                              </label>
-                                          </td>
-
-                                          <td class=\"task__file\">
-                                          </td>
-
-                                          <td class=\"task__date\">$task[1]</td>
-                                          </tr>";
-                              }
-                            }
-                  ?>
+                      <td class="task__date"><? echo $task["deadline"] ?></td>
+                    </tr>
+                  <? endforeach; ?>
                 </table>
             </main>
         </div>
