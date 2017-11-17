@@ -25,6 +25,20 @@ $tasks = [
 ["task" => "Купить корм для кота","deadline" => "Нет","cat" => "Домашние дела","done" => "Нет"],
 ["task" => "Заказать пиццу","deadline" => "Нет","cat" => "Домашние дела","done" => "Нет"]
 ];
+
+function count_projects ($array, $arg) {
+  $count = 0;
+  if ($arg == "Все") {
+    $count = count($array);
+    return $count;
+  }
+  foreach ($array as $task) {
+    if ($task["cat"] == $arg){
+      $count++;
+    }
+  }
+  return $count;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -72,7 +86,7 @@ $tasks = [
                       <? foreach ($categories as $i => $cat): ?>
                           <li class="main-navigation__list-item <? if ($i == 0) echo "main-navigation__list-item--active" ?>">
                             <a class="main-navigation__list-item-link" href="#"><? echo $cat ?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><? echo count_projects($tasks, $cat); ?></span>
                           </li>
                       <? endforeach; ?>
                     </ul>
