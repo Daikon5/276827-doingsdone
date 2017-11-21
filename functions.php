@@ -17,7 +17,7 @@ function render_page ($path,$array) {
   if (file_exists($path)) {
     ob_start();
     extract ($array);
-    require_once $path;
+    include $path;
     return ob_get_clean();
   }
   else {
