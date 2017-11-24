@@ -3,27 +3,18 @@ include "data.php";
 include "functions.php";
 
 $category = null;
-$tasks_chosen = [];
-$counter = 0;
+$tasks_chosen = $tasks;
 if (isset($_GET["category"])) {
     $category = $_GET["category"];
 
     if (isset($categories[$category])) {
-        if ($category == 0) {                           //если категория "Все"
-            $tasks_chosen = $tasks;
-        }
-        else {
-            foreach ($tasks as $task) {
-                if ($categories[$category] == $task["cat"]) {
-                    array_push($tasks_chosen,$task);
-                }
-                else {
-                    $counter++;
-                    if ($counter == count($categories)) {  //если в выбранной категории 0 проектов
-                        $tasks_chosen = $tasks;
-                    }
-                }
+        foreach ($tasks_chosen as $i => $task) {
+            if ($categories[$category] != $task["cat"]) {
+                unset($tasks_chosen[$i]);
             }
+        }
+        if ($categories[$category] == "Все") {
+            $tasks_chosen = $tasks;
         }
     }
 }
